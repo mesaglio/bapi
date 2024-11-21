@@ -1,0 +1,159 @@
+openapi: 3.0.1
+info:
+  title: CRUD of users
+  version: 1.0.0
+servers:
+  - url: /
+tags:
+  - name: Users
+    description: Users
+paths:
+  /ping:
+    get:
+      tags:
+        - Status
+      summary: ping
+      operationId: ping
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Pong
+                x-content-type: application/json
+      x-codegen-request-body-name: body
+      x-swagger-router-controller: Status
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Get all users
+      operationId: getUsers
+      responses:
+        "201":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+                x-content-type: application/json
+        "405":
+          description: Input invalido
+          content: {}
+      x-codegen-request-body-name: body
+      x-swagger-router-controller: Users
+    post:
+      tags:
+        - Users
+      summary: Create user
+      operationId: createUser
+      requestBody:
+        description: User
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+        required: true
+      responses:
+        "201":
+          description: OK
+          content: {}
+        "405":
+          description: Input invalido
+          content: {}
+      x-codegen-request-body-name: body
+      x-swagger-router-controller: Users
+  /users/{username}:
+    get:
+      tags:
+        - Users
+      summary: Get user by username
+      operationId: getUserByUsername
+      parameters:
+        - name: username
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: Not found
+          content: {}
+      x-codegen-request-body-name: body
+      x-swagger-router-controller: Users
+    delete:
+      tags:
+        - Users
+      summary: Delete user by username
+      operationId: deleteUserByUsername
+      parameters:
+        - name: username
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not found
+          content: {}
+      x-swagger-router-controller: Users
+    patch:
+      tags:
+        - Users
+      summary: Update user by username
+      operationId: updateUserByUsername
+      parameters:
+        - name: username
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: User
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: Not found
+          content: {}
+      x-codegen-request-body-name: body
+      x-swagger-router-controller: Users
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+      example:
+        username: test
+        email: test@test.com
