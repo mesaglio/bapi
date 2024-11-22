@@ -17,7 +17,7 @@ async def get_user():
 @users.post("/users")
 async def create_user(user: User, response: Response):
     users_db.append(user)
-    response.status_code = 201
+    response.status_code = 200
     return response
 
 
