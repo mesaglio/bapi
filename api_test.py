@@ -49,8 +49,7 @@ def test_bad_requests():
 
 def test_not_found():
     url = f"{users_url}/{random.choice(users).get('username')}"
-    print(url)
-    patch_bad_request = requests.patch(url, json={})
+    patch_bad_request = requests.patch(url, json=users[0])
     assert patch_bad_request.status_code == 404
 
 
