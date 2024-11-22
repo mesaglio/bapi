@@ -14,5 +14,6 @@ To run benchamark we use the [k6 script](https://github.com/mesaglio/server-exam
 
 ```terminal
 go install go.k6.io/xk6/cmd/xk6@latest
+xk6 build --with github.com/grafana/xk6-dashboard@latest
 ./k6 run --out dashboard bench.js
 ```

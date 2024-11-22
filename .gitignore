@@ -4,3 +4,4 @@ node_modules/
 k6
 .pytest_cache
 __pycache__
+target/
