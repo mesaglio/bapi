@@ -12,9 +12,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"sync"
 )
 
 var users []*User
+var mutex = &sync.Mutex{}
 
 func UpdateUserByUsername(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
@@ -25,7 +27,9 @@ func UpdateUserByUsername(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	mutex.Lock()
 	_user, _ := findUserByUsername(*username)
+	mutex.Unlock()
 	if _user == nil {
 		w.WriteHeader(http.StatusNotFound)
 		return
@@ -43,21 +47,27 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "", http.StatusBadRequest)
 		return
 	}
+	mutex.Lock()
 	users = append(users, &user)
+	mutex.Unlock()
 	w.WriteHeader(http.StatusOK)
 }
 
 func DeleteUserByUsername(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	username := getPathParam(w, r)
+	mutex.Lock()
 	removeByUsername(*username)
+	mutex.Unlock()
 	w.WriteHeader(http.StatusOK)
 }
 
 func GetUserByUsername(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	username := getPathParam(w, r)
+	mutex.Lock()
 	usuario, _ := findUserByUsername(*username)
+	mutex.Unlock()
 	if usuario == nil {
 		w.WriteHeader(http.StatusNotFound)
 		return

@@ -32,7 +32,7 @@ paths:
       summary: Get all users
       operationId: getUsers
       responses:
-        "201":
+        "200":
           description: OK
           content:
             application/json:
@@ -59,7 +59,7 @@ paths:
               $ref: "#/components/schemas/User"
         required: true
       responses:
-        "201":
+        "200":
           description: OK
           content: {}
         "405":

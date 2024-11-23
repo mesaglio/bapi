@@ -6,14 +6,17 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"sync"
 
 	"github.com/gin-gonic/gin"
 )
 
 var users []*models.User
+var mutex sync.Mutex
 
 func init() {
 	users = []*models.User{}
+	mutex = sync.Mutex{}
 }
 
 func GetUsers(c *gin.Context) {
@@ -23,7 +26,9 @@ func GetUsers(c *gin.Context) {
 func AddUser(c *gin.Context) {
 	user := getUserFromBody(c)
 	if user != nil {
+		mutex.Lock()
 		users = append(users, user)
+		mutex.Unlock()
 		c.Status(http.StatusOK)
 	} else {
 		c.Status(http.StatusBadRequest)
@@ -32,7 +37,9 @@ func AddUser(c *gin.Context) {
 
 func GetUserByUsername(c *gin.Context) {
 	username := c.Param("username")
+	mutex.Lock()
 	user := getUserByUsername(username)
+	mutex.Unlock()
 	if user != nil && username != "" {
 		c.JSON(http.StatusOK, user)
 	} else {
@@ -42,7 +49,9 @@ func GetUserByUsername(c *gin.Context) {
 
 func DeleteUserByUsername(c *gin.Context) {
 	username := c.Param("username")
+	mutex.Lock()
 	deleteUserByUsername(username)
+	mutex.Unlock()
 	c.Status(http.StatusOK)
 }
 
@@ -50,8 +59,10 @@ func UpdateUserByUsername(c *gin.Context) {
 	username := c.Param("username")
 	user := getUserFromBody(c)
 	if user != nil && username == user.Username {
+		mutex.Lock()
 		deleteUserByUsername(username)
 		users = append(users, user)
+		mutex.Unlock()
 		c.JSON(http.StatusOK, user)
 	}
 

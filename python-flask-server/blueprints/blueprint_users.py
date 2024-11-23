@@ -11,7 +11,7 @@ def create_user():
     try:
         body = User(request.json)
         users.append(body)
-        return "", 201
+        return "", 200
     except Exception as e:
         return "", 400
 
