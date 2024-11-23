@@ -14,3 +14,8 @@ run/%:
 	cd ..; \
 	pytest api_test.py; \
 	docker stop $* ;
+
+up/%:
+	@cd $* ; \
+	docker build -t $* .; \
+	docker run -it --rm --name $* -p8080:8080 $* ;

@@ -37,9 +37,13 @@ function modifyUser(user) {
     username: `${user.username}`,
     email: `${user.email.split("@")[0]}_updated@example.com`,
   };
-  const res = http.patch(`${BASE_URL}/users`, JSON.stringify(payload), {
-    headers: { "Content-Type": "application/json" },
-  });
+  const res = http.patch(
+    `${BASE_URL}/users/${user.username}`,
+    JSON.stringify(payload),
+    {
+      headers: { "Content-Type": "application/json" },
+    }
+  );
 
   check(res, {
     "modify user: status is 200": (r) => r.status === 200,
@@ -49,13 +53,9 @@ function modifyUser(user) {
 }
 
 function deleteUser(user) {
-  const res = http.del(
-    `${BASE_URL}/users`,
-    JSON.stringify({ username: user.username }),
-    {
-      headers: { "Content-Type": "application/json" },
-    }
-  );
+  const res = http.del(`${BASE_URL}/users/${user.username}`, {
+    headers: { "Content-Type": "application/json" },
+  });
 
   check(res, {
     "delete user: status is 200": (r) => r.status === 200,
