@@ -6,4 +6,4 @@ class User(BaseModel):
     email: str
 
     def __eq__(self, other):
-        self.__dict__.get('username') == other.get('username') and self.__dict__.get('email') == other.get('email')
+        return self.username == other.username and self.email == other.email
