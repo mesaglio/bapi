@@ -1,20 +1,26 @@
 import http from "k6/http";
-import { check, sleep } from "k6";
+import { check } from "k6";
 
-const BASE_URL = "http://localhost:8080"; // Cambia esto a tu URL base
+const BASE_URL = "http://localhost:8080";
 
-const user = {
-  username: "user1",
-  email: "test@test.com",
-};
+const NUM_USERS = 100;
+const users = Array.from({ length: NUM_USERS }, (_, i) => ({
+  username: `user_${i}`,
+  email: `user_${i}@test.com`,
+}));
 
 export const options = {
   stages: [
-    { duration: "30s", target: 10 }, // Escala a 10 usuarios virtuales
-    { duration: "1m", target: 50 }, // Mantén 50 usuarios virtuales
-    { duration: "30s", target: 0 }, // Reduce gradualmente a 0 usuarios
+    { duration: "10s", target: 10 },
+    { duration: "20s", target: 50 },
+    { duration: "10s", target: 0 },
   ],
 };
+
+function getUserForVU() {
+  const vuId = __VU - 1;
+  return users[vuId % NUM_USERS];
+}
 
 function createUser(user) {
   const res = http.post(`${BASE_URL}/users`, JSON.stringify(user), {
@@ -22,31 +28,26 @@ function createUser(user) {
   });
 
   check(res, {
-    "create user: status is 200": (r) => r.status === 200,
+    "User created (201)": (r) => r.status === 201,
   });
 
-  if (res.status === 200) {
-    return {};
-  }
-
-  return null;
+  return res.status === 201;
 }
 
 function modifyUser(user) {
   const payload = {
-    username: `${user.username}`,
-    email: `${user.email.split("@")[0]}_updated@example.com`,
+    username: user.username,
+    email: `${user.username}@updated.com`,
   };
+
   const res = http.patch(
     `${BASE_URL}/users/${user.username}`,
     JSON.stringify(payload),
-    {
-      headers: { "Content-Type": "application/json" },
-    }
+    { headers: { "Content-Type": "application/json" } }
   );
 
   check(res, {
-    "modify user: status is 200": (r) => r.status === 200,
+    "User modified (200)": (r) => r.status === 200,
   });
 
   return res.status === 200;
@@ -58,23 +59,16 @@ function deleteUser(user) {
   });
 
   check(res, {
-    "delete user: status is 200": (r) => r.status === 200,
+    "User deleted (200)": (r) => r.status === 200,
   });
 
   return res.status === 200;
 }
 
 export default function () {
-  if (Math.random() < 0.5) {
-    // Crear un nuevo usuario
-    createUser(user);
-  } else {
-    if (Math.random() < 0.5) {
-      // Modificar el usuario
-      modifyUser(user);
-    } else {
-      // Eliminar el usuario y quitarlo del array local
-      deleteUser(user);
-    }
-  }
+  const user = getUserForVU();
+
+  createUser(user);
+  modifyUser(user);
+  deleteUser(user);
 }
