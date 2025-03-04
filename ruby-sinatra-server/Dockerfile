@@ -11,5 +11,5 @@ RUN gem install bundler:2.2.9
 RUN bundle install
 
 COPY main.rb .
-
+ENV RACK_ENV=production
 CMD ["ruby","main.rb"]
