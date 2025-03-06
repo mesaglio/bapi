@@ -1,26 +1,49 @@
 # bapi
 
-This is a project to test benchmarking for different language/frameworks.
+A benchmarking project comparing performance across different programming languages and frameworks.
 
-The swagger definition is [here](swagger-3.yaml).
+## Documentation
 
-You can run api tests with `pytest api_test.py`, here we have http request to localhost validation http status and response bodies.
+The API specification is available in the [swagger definition file](swagger-3.yaml).
 
----
+## Testing
 
-To run benchmark we use the [k6 script](bench/bench.js). To get a dashboard locally you can use [kibana xk6](https://github.com/grafana/xk6).
+API tests can be run using:
 
-```terminal
+```bash
+pytest api_test.py
+```
+
+These tests validate HTTP status codes and response bodies by making requests to localhost.
+
+## Benchmarking
+
+We use [k6](https://k6.io/) for performance testing. For local dashboard visualization, we recommend using [k6 dashboard](https://github.com/grafana/xk6).
+
+To set up and run the benchmark with dashboard:
+
+```bash
+# Install xk6
 go install go.k6.io/xk6/cmd/xk6@latest
+
+# Build k6 with dashboard extension
 xk6 build --with github.com/grafana/xk6-dashboard@latest
+
+# Run benchmark with dashboard output
 ./k6 run --out dashboard bench/bench.js
 ```
 
-## Benchmark
+## Benchmark Results
+
+Below are the performance results for each implementation:
 
 - Rust
 
 ![alt text](rust-server/image.png "rust")
+
+- Go - Native
+
+![alt text](go-native/image.png "Go - Native")
 
 - Go - Gin
 
