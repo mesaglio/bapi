@@ -9,15 +9,16 @@
 package main
 
 import (
-	sw "golang-mux-test/src/api"
 	"log"
 	"net/http"
+
+	"bapi/go-mux/src/api"
 )
 
 func main() {
 	log.Printf("Server started")
 
-	router := sw.NewRouter()
+	router := api.NewRouter()
 
 	s := &http.Server{
 		Addr:    "0.0.0.0:8080",

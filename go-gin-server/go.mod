@@ -1,4 +1,4 @@
-module golang-test/api
+module bapi/go-gin-server
 
 go 1.23
 

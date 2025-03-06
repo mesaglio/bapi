@@ -1,4 +1,4 @@
-module golang-mux-test
+module bapi/go-mux
 
 go 1.23.2
 

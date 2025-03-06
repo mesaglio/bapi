@@ -1,7 +1,7 @@
 package main
 
 import (
-	"golang-test/api/src/controllers"
+	"bapi/go-gin-server/src/controllers"
 
 	"github.com/gin-gonic/gin"
 )

@@ -1,8 +1,8 @@
 package controllers
 
 import (
+	"bapi/go-gin-server/src/models"
 	"encoding/json"
-	"golang-test/api/src/models"
 	"io"
 	"log"
 	"net/http"
