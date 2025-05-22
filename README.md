@@ -76,4 +76,3 @@ Below are the performance results for each implementation:
 - Python - Falcon
 
 ![alt text](python-falcon-server/image.png "Python - Falcon")
-
