@@ -35,44 +35,17 @@ xk6 build --with github.com/grafana/xk6-dashboard@latest
 
 ## Benchmark Results
 
-Below are the performance results for each implementation:
-
-- Rust
-
-![alt text](rust-server/image.png "rust")
-
-- Go - Native
-
-![alt text](go-native/image.png "Go - Native")
-
-- Go - Gin
-
-![alt text](go-gin-server/image.png "Go - Gin")
-
-- Go - Mux
-
-![alt text](go-mux-server/image.png "Go - Mux")
-
-- Deno
-
-![alt text](deno-server/image.png "Deno")
-
-- Node - Fastify
-
-![alt text](node-fastify-server/image.png "Node - Fastify")
-
-- Ruby - Sinatra
-
-![alt text](ruby-sinatra-server/image.png "Ruby - Sinatra")
-
-- Python - Flask
-
-![alt text](python-flask-server/image.png "Python - Flask")
-
-- Python - Fastapi
-
-![alt text](python-fastapi-server/image.png "Python - Fastapi")
-
-- Python - Falcon
-
-![alt text](python-falcon-server/image.png "Python - Falcon")
+<!-- BENCHMARK_RESULTS_START -->
+| Framework | Reqs/sec | Latency (p95) | Latency (avg) | Checks OK | Failures |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Rust | 29660.53 | 1.56ms | 0.73ms | 100.00% | 0.00% |
+| Go (Native) | 27479.16 | 1.71ms | 0.79ms | 100.00% | 0.00% |
+| Go (Mux) | 24939.99 | 2.23ms | 0.87ms | 100.00% | 0.00% |
+| Go (Gin) | 24770.47 | 2.28ms | 0.88ms | 100.00% | 0.00% |
+| Deno | 21384.11 | 2.55ms | 1.02ms | 100.00% | 0.00% |
+| Node (Fastify) | 10978.28 | 5.15ms | 2.02ms | 66.67% | 33.33% |
+| Ruby (Sinatra) | 3644.63 | 7.85ms | 6.13ms | 100.00% | 0.00% |
+| Python (FastAPI) | 2992.10 | 18.76ms | 7.46ms | 100.00% | 0.00% |
+| Python (Flask) | 1598.07 | 5.72ms | 1.61ms | 81.25% | 18.75% |
+| Python (Falcon) | 515.25 | 5.98ms | 1.86ms | 99.97% | 0.03% |
+<!-- BENCHMARK_RESULTS_END -->
