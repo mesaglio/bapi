@@ -29,7 +29,7 @@ func AddUser(c *gin.Context) {
 		mutex.Lock()
 		users = append(users, user)
 		mutex.Unlock()
-		c.Status(http.StatusOK)
+		c.Status(http.StatusCreated)
 	} else {
 		c.Status(http.StatusBadRequest)
 	}
@@ -52,21 +52,33 @@ func DeleteUserByUsername(c *gin.Context) {
 	mutex.Lock()
 	deleteUserByUsername(username)
 	mutex.Unlock()
-	c.Status(http.StatusOK)
+	c.Status(http.StatusNoContent)
 }
 
 func UpdateUserByUsername(c *gin.Context) {
 	username := c.Param("username")
 	user := getUserFromBody(c)
-	if user != nil && username == user.Username {
+	if user == nil {
+		c.AbortWithStatus(http.StatusNotFound)
+		return
+	}
+
+	if username == user.Username {
 		mutex.Lock()
+		// First, check if the user to be updated exists.
+		if getUserByUsername(username) == nil {
+			mutex.Unlock()
+			c.AbortWithStatus(http.StatusNotFound)
+			return
+		}
 		deleteUserByUsername(username)
 		users = append(users, user)
 		mutex.Unlock()
 		c.JSON(http.StatusOK, user)
+		return
 	}
 
-	c.AbortWithStatus(http.StatusNotFound)
+	c.AbortWithStatus(http.StatusBadRequest)
 }
 
 func deleteUserByUsername(username string) {

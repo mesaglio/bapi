@@ -32,8 +32,8 @@ post '/users' do
   body = get_body
   if valid_body?(body)
     users.push(body)
-    status 200
-    json('Success')
+    status 201
+    json(body)
   else
     status 400
   end
@@ -52,8 +52,10 @@ delete '/users/:username' do |username|
   i = get_user_index(username, users)
   if i
     users.delete_at(i)
+    status 204
+  else
+    status 404
   end
-  status 200
 end
 
 patch '/users/:username' do |username|

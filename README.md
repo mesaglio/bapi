@@ -38,14 +38,14 @@ xk6 build --with github.com/grafana/xk6-dashboard@latest
 <!-- BENCHMARK_RESULTS_START -->
 | Framework | Reqs/sec | Latency (p95) | Latency (avg) | Checks OK | Failures |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Rust | 29660.53 | 1.56ms | 0.73ms | 100.00% | 0.00% |
-| Go (Native) | 27479.16 | 1.71ms | 0.79ms | 100.00% | 0.00% |
-| Go (Mux) | 24939.99 | 2.23ms | 0.87ms | 100.00% | 0.00% |
-| Go (Gin) | 24770.47 | 2.28ms | 0.88ms | 100.00% | 0.00% |
-| Deno | 21384.11 | 2.55ms | 1.02ms | 100.00% | 0.00% |
-| Node (Fastify) | 10978.28 | 5.15ms | 2.02ms | 66.67% | 33.33% |
-| Ruby (Sinatra) | 3644.63 | 7.85ms | 6.13ms | 100.00% | 0.00% |
-| Python (FastAPI) | 2992.10 | 18.76ms | 7.46ms | 100.00% | 0.00% |
-| Python (Flask) | 1598.07 | 5.72ms | 1.61ms | 81.25% | 18.75% |
-| Python (Falcon) | 515.25 | 5.98ms | 1.86ms | 99.97% | 0.03% |
+| Rust | 18837.74 | 3.09ms | 1.15ms | 100.00% | 0.00% |
+| Go (Native) | 18369.93 | 3.22ms | 1.18ms | 100.00% | 0.00% |
+| Go (Mux) | 15992.40 | 3.93ms | 1.36ms | 100.00% | 0.00% |
+| Go (Gin) | 15671.24 | 4.11ms | 1.39ms | 100.00% | 0.00% |
+| Deno | 15254.52 | 3.85ms | 1.43ms | 100.00% | 0.00% |
+| Node (Fastify) | 8009.92 | 8.02ms | 2.76ms | 66.67% | 33.33% |
+| Ruby (Sinatra) | 2587.04 | 33.38ms | 8.63ms | 100.00% | 0.00% |
+| Python (FastAPI) | 2273.47 | 24.85ms | 9.81ms | 100.00% | 0.00% |
+| Python (Flask) | 1189.62 | 11.17ms | 3.03ms | 100.00% | 0.00% |
+| Python (Falcon) | 508.75 | 9.12ms | 3.91ms | 100.00% | 0.00% |
 <!-- BENCHMARK_RESULTS_END -->

@@ -50,7 +50,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	mutex.Lock()
 	users = append(users, &user)
 	mutex.Unlock()
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusCreated)
 }
 
 func DeleteUserByUsername(w http.ResponseWriter, r *http.Request) {
@@ -59,7 +59,7 @@ func DeleteUserByUsername(w http.ResponseWriter, r *http.Request) {
 	mutex.Lock()
 	removeByUsername(*username)
 	mutex.Unlock()
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusNoContent)
 }
 
 func GetUserByUsername(w http.ResponseWriter, r *http.Request) {

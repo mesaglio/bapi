@@ -12,7 +12,7 @@ class Users:
             res.status = falcon.HTTP_400
         else:
             self.users.append(self.body_to_user(user))
-            res.status = falcon.HTTP_200
+            res.status = falcon.HTTP_201
 
     def on_get(self, req, res, username=None):
         if username:
@@ -26,6 +26,7 @@ class Users:
 
     def on_delete(self, req, res, username=None):
         self.remove_user_by_username(username)
+        res.status = falcon.HTTP_204
 
     def on_patch(self, req, res, username=None):
         user = req.media
@@ -35,6 +36,7 @@ class Users:
             res.status = falcon.HTTP_400
         else:
             self.update_user(username, self.body_to_user(user))
+            res.status = falcon.HTTP_200
 
     def find_user_by_username(self, username: str):
         for user in self.users:
@@ -56,4 +58,4 @@ class Users:
 
     @staticmethod
     def body_to_user(user):
-        return User(user['username'], user['email'])
+        return User(user["username"], user["email"])

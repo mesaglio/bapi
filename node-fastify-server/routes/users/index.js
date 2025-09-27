@@ -13,7 +13,7 @@ module.exports = async function (fastify, opts) {
     var user = getUserFromBody(request);
     if (haveAllProps(user)) {
       users.push(user);
-      return reply.send();
+      return reply.code(201).send();
     }
     return sendError(reply, 400);
   });
@@ -33,7 +33,7 @@ module.exports = async function (fastify, opts) {
   fastify.delete("/:username", async function (request, reply) {
     var username = request.params.username;
     deleteUser(username);
-    return reply.send();
+    return reply.code(204).send();
   });
 
   fastify.patch("/:username", async function (request, reply) {
@@ -46,7 +46,7 @@ module.exports = async function (fastify, opts) {
     if (haveAllProps(user)) {
       deleteUser(username);
       users.push(user);
-      return reply.send();
+      return reply.code(200).send();
     }
 
     return sendError(reply, 400);

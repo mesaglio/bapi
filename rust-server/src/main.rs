@@ -23,8 +23,9 @@ async fn get_users(data: web::Data<AppState>) -> impl Responder {
 
 async fn post_user(data: web::Data<AppState>, new_user: web::Json<User>) -> impl Responder {
     let mut users = data.users.lock().unwrap();
-    users.push(new_user.into_inner());
-    HttpResponse::Ok().json("Success")
+    let user_to_insert = new_user.into_inner();
+    users.push(user_to_insert.clone());
+    HttpResponse::Created().json(user_to_insert)
 }
 
 async fn get_user(username: web::Path<String>, data: web::Data<AppState>) -> impl Responder {
@@ -40,15 +41,17 @@ async fn delete_user(username: web::Path<String>, data: web::Data<AppState>) -> 
     let mut users = data.users.lock().unwrap();
     if let Some(pos) = users.iter().position(|u| u.username == username.as_str()) {
         users.remove(pos);
+        return HttpResponse::NoContent().finish()
     } 
-    HttpResponse::Ok().finish()
+    HttpResponse::NotFound().finish()
 }
 
 async fn patch_user(username: web::Path<String>, new_user: web::Json<User>, data: web::Data<AppState>) -> impl Responder {
     let mut users = data.users.lock().unwrap();
     if let Some(pos) = users.iter().position(|u| u.username == username.as_str()) {
-        users[pos] = new_user.into_inner();
-        HttpResponse::Ok().json("Success")
+        let user_to_update = new_user.into_inner();
+        users[pos] = user_to_update.clone();
+        HttpResponse::Ok().json(user_to_update)
     } else {
         HttpResponse::NotFound().finish()
     }

@@ -31,7 +31,8 @@ const createUser = async ({ request, response }: {
     try {
         const user: User = userFromBody(body);
         users.push(user);
-        response.status = 200;
+        response.status = 201;
+        response.body = user;
     } catch (error) {
         response.status = 400;
         response.body = { msg: error.message };
@@ -70,7 +71,7 @@ const deleteUser = ({
 	response: any;
 }) => {
 	users = users.filter((user) => user.username !== params.username);
-	response.status = 200;
+	response.status = 204;
 };
 
 function userFromBody(body: any): User {

@@ -14,15 +14,14 @@ async def get_user():
     return users_db
 
 
-@users.post("/users")
-async def create_user(user: User, response: Response):
+@users.post("/users", status_code=201)
+async def create_user(user: User):
     users_db.append(user)
-    response.status_code = 200
-    return response
+    return user
 
 
 @users.get("/users/{username}", status_code=200)
-async def create_user(username: str, response: Response):
+async def get_user_by_username(username: str, response: Response):
     user = find_user(username)
     if user:
         return user
@@ -30,12 +29,13 @@ async def create_user(username: str, response: Response):
     return response
 
 
-@users.delete("/users/{username}")
+@users.delete("/users/{username}", status_code=204)
 def delete_user(username: str, response: Response):
     user = find_user(username)
     if user:
         users_db.remove(user)
-    response.status_code = 200
+        return Response(status_code=204)
+    response.status_code = 404
     return response
 
 

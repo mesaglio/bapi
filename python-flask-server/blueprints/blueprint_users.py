@@ -1,5 +1,6 @@
 from models.user import User
-from flask import request, Blueprint, jsonify
+from flask import request, Blueprint, jsonify, Response
+import json
 
 users = []
 
@@ -11,14 +12,18 @@ def create_user():
     try:
         body = User(request.json)
         users.append(body)
-        return "", 200
+        return "", 201
     except Exception as e:
         return "", 400
 
 
 @users_blueprint.route("/", methods=["GET"])
 def get_all_users():
-    return jsonify([o.__dict__ for o in users]), 200
+    return Response(
+        json.dumps([o.__dict__ for o in users]),
+        mimetype="application/json",
+        status=200,
+    )
 
 
 @users_blueprint.route("/<username>", methods=["GET"])
@@ -42,7 +47,7 @@ def update_user_by_username(username):
 @users_blueprint.route("/<username>", methods=["DELETE"])
 def delete_user_by_username(username):
     delete_user(username)
-    return "", 200
+    return "", 204
 
 
 def get_index_of_user(username: str):
